@@ -4,13 +4,15 @@ import random
 
 def agent_pp(quality):
     # add variance of 10%
-    variance = random.uniform(1, 0.8)
-    quality = quality * variance
+    variance1 = random.uniform(1.2, 0.8)
+    variance2 = random.uniform(1.2, 0.8)
+    variance3 = random.uniform(1.2, 0.8)
+#    quality = quality * variance
     remaining = (1 - quality) / 2
-    return (quality, remaining * variance, remaining * (1 / variance))
+    return (quality * variance1, remaining * variance2, remaining * variance3)
 
 def problem1():
-    quality = 0.8
+    quality = 0.1
     state1 = True
     state2 = False
     state3 = False
@@ -26,5 +28,5 @@ def problem1():
             agent_choices.append(2)
         else:
             agent_choices.append(3)
-    return agent_choices
+    return (agents,agent_choices)
         
