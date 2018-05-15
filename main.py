@@ -76,18 +76,15 @@ def Bayes(priors, observation, likelihood):
         numerators.append(numerator)
         return list(map(lambda x : x / normalizer, numerators))
 
-def Bayes3(priors, observation, likelihood):
+def Bayes3(priors, observation, likelihood, utility_min):
     normalizer = 0.0
     numerators = []
     for i in range(len(priors)):
         real_likelihood = 0.0
         if observation == i:
             real_likelihood = likelhood
-        elif i < 4:
+        else:
             real_likelihood = (1 - likelihood)/2
-
-        
-
         numerator = priors[i] * real_likelihood
         normalizer += numerator
         numerators.append(numerator)
