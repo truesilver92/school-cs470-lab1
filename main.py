@@ -1,6 +1,7 @@
 
 import numpy as np
 import random
+import math
 
 def agent_pp(quality):
     # add variance of 10%
@@ -10,6 +11,14 @@ def agent_pp(quality):
 #    quality = quality * variance
     remaining = (1 - quality) / 2
     return (quality * variance1, remaining * variance2, remaining * variance3)
+
+def agent_pp2(quality):
+    remaining = (1 - quality) /2
+    return (quality, remaining, remaining)
+
+def agent_pp3(quality):
+    remaining = (1 - quality) /2
+    return (quality, remaining, remaining, 0) # the foruth is else
 
 def problem1():
     quality = 0.1
@@ -29,4 +38,81 @@ def problem1():
         else:
             agent_choices.append(3)
     return (agents,agent_choices)
+
+def problem2():
+    state1 = True
+    state2 = False
+    state3 = False
+    NUM_AGENTS = 20
+    percent_good = 0.20
+    likelihood = 0.9
+    quality = 0.1
+    agents = []
+    first_agent_info = math.floor(NUM_AGENTS * percent_good)
+    for i in range(first_agent_info):
+        agents.append(agent_pp2(quality))
+    for i in range(first_agent_info, NUM_AGENTS):
+        agents.append(agent_pp2(random.uniform(0.0, 1)))
+    # block
+    decisions = []
+    for i in range(NUM_AGENTS):
+        for decision in decisions:
+            agents[i] = Bayes(agents[i], decision, likelihood)
+        decisions.append(agents[i].index(max(agents[i])) + 1)
+    return decisions
+            
+def Bayes(priors, observation, likelihood):
+    normalizer = 0.0
+    numerators = []
+    for i in range(len(priors)):
+        real_likelihood = 0.0
+        if observation == i:
+            real_likelihood = likelhood
+        else:
+            real_likelihood = (1 - likelihood)/2
+
+        numerator = priors[i] * real_likelihood
+        normalizer += numerator
+        numerators.append(numerator)
+        return list(map(lambda x : x / normalizer, numerators))
+
+def Bayes3(priors, observation, likelihood):
+    normalizer = 0.0
+    numerators = []
+    for i in range(len(priors)):
+        real_likelihood = 0.0
+        if observation == i:
+            real_likelihood = likelhood
+        elif i < 4:
+            real_likelihood = (1 - likelihood)/2
+
         
+
+        numerator = priors[i] * real_likelihood
+        normalizer += numerator
+        numerators.append(numerator)
+        return list(map(lambda x : x / normalizer, numerators))
+
+def problem3():
+    state1 = True
+    state2 = False
+    state3 = False
+    NUM_AGENTS = 20
+    percent_good = 0.20
+    likelihood = 0.8
+    quality = 0.8
+    minimum_utility = 0.1
+    agents = []
+    first_agent_info = math.floor(NUM_AGENTS * percent_good)
+    for i in range(first_agent_info):
+        agents.append(agent_pp3(quality))
+    for i in range(first_agent_info, NUM_AGENTS):
+        agents.append(agent_pp3(random.uniform(0.0, 1)))
+    # block
+    decisions = []
+    for i in range(NUM_AGENTS):
+        for decision in decisions:
+            agents[i] = Bayes(agents[i], decision, likelihood)
+        decisions.append(agents[i].index(max(agents[i])) + 1)
+    return decisions
+            
